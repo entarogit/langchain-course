@@ -25,10 +25,24 @@ class AgentResponse(BaseModel):
         default_factory=list, description="List of sources used to generate the answer"
     )
 
+@tool
+def search(query: str) -> str:
+    """
+    Tool that searches over internet
+    Args:
+        query: The query to search for
+    Returns:
+        The search result
+    """
+    print(f"Searching for {query}")
+    return "Tokyo weather is sunny"
 
-llm = ChatOpenAI(model="gpt-5")
-tools = [TavilySearch()]
-agent = create_agent(model=llm, tools=tools, response_format=AgentResponse)
+llm = ChatOpenAI(model="gpt-5.4-nano")
+#tools = [TavilySearch()]
+tools = [search]
+#agent = create_agent(model=llm, tools=tools, response_format=AgentResponse)
+agent = create_agent(model=llm, tools=tools)
+
 
 
 def main():
